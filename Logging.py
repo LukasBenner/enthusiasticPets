@@ -12,7 +12,7 @@ class Logging:
     def log(message: string, file: FileHandler):
         # concat string
         message = Logging.__build_message(message)
-        print(message)
+        print(message, end="")
         file.append(message)
 
     @staticmethod
