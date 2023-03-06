@@ -8,45 +8,25 @@ import concurrent.futures
 from multiprocessing import Process
 from FileHandler import FileHandler
 from Logging import Logging
+from Server import Server
+from Client import Client
 
+def start_server():
+    server = Server()
+    server.run()
 
-# work function
-
-def task(_: int, file: FileHandler):
-    """
-    :param _: Is not used in this function but is necessary for multiprocessing
-    :param file: Filehandler
-    """
-    # acquire the lock
-    for i in range(50):
-        pause = random.randint(0, 250)
-        Logging.log("Waiting {} ms".format(pause), file)
-        time.sleep(pause/1000.0)
-
-
-def start_multiple_processes(number: int):
-    file = FileHandler("log.txt")
-    # create a number of processes with different sleep times
-    processes = [Process(target=task, args=(i, file)) for i in range(number)]
-    # start the processes
-    for process in processes:
-        process.start()
-    # wait for all processes to finish
-    for process in processes:
-        process.join()
-
-
-def start_with_multiple_threads(number: int):
-    file = FileHandler("log.txt")
-    with concurrent.futures.ThreadPoolExecutor(max_workers=number) as executor:
-        futures = [executor.submit(task, i, file) for i in range(number)]
-        concurrent.futures.wait(futures)
+def start_client():
+    client = Client()
+    client.run()
+    client.terminate()
 
 if __name__ == '__main__':
-    start_time = datetime.datetime.now()
-    start_multiple_processes(2)
-    stop_time = datetime.datetime.now()
+    server_proc = Process(target=start_server)
+    client_proc = Process(target=start_client)
 
-    print("Took {} seconds".format((stop_time - start_time).seconds))
+    server_proc.start()
+    time.sleep(1)
+    client_proc.start()
 
-    start_with_multiple_threads(2)
+    server_proc.join()
+    client_proc.join()

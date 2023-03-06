@@ -14,6 +14,13 @@ class FileHandler:
                 print(line)
             file.close()
 
+    def read_last_line(self):
+        with self.lock:
+            file = open(self.filepath, "r")
+            last_line = file.readlines()[-1]
+            file.close()
+        return last_line
+
     def write(self, content: string):
         with self.lock:
             file = open(self.filepath, "w")
