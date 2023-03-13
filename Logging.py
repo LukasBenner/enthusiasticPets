@@ -1,7 +1,7 @@
 import os
 import string
-from datetime import datetime
 import threading
+from datetime import datetime
 
 from FileHandler import FileHandler
 

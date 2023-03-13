@@ -1,15 +1,9 @@
-# This is a sample Python script.
-import datetime
-import random
-import string
 import time
-import threading
-import concurrent.futures
 from multiprocessing import Process
-from FileHandler import FileHandler
-from Logging import Logging
-from Server import Server
+
 from Client import Client
+from Server import Server
+
 
 def start_server():
     server = Server()

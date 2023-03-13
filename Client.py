@@ -3,6 +3,7 @@ import zmq
 from Message import *
 from Utility import serialize, deserialize
 
+
 class Client:
     def __init__(self):
         self.context = zmq.Context()
